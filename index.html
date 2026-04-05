@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CJ's Water Station</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-container">
+
+    <div class="logo" ondblclick="adminAccess()">
+      <img src="logo.jpeg" alt="Logo">
+    </div>
+
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="app.html?view=services">Services</a>
+      <a href="auth.html">Login</a>
+    </div>
+
+  </div>
+</nav>
+
+<section class="hero">
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-box">
+
+    <h1>💧 Pure Water, Pure Life</h1>
+
+    <p>
+      Stay refreshed every day with CJ’s Water Station. We deliver clean, safe,
+      and affordable purified water for your home and business — 
+      <strong>fast, reliable, and hassle-free.</strong>
+    </p>
+
+    <div class="hero-buttons">
+      <button class="primary" onclick="location='app.html?view=services'">
+        Explore Services
+      </button>
+    </div>
+
+  </div>
+
+</section>
+    <div class="service-card">
+      <h3>⚡ Fast Service</h3>
+      <p>
+        We value your time. Enjoy quick refilling and reliable delivery services
+        whenever you need them.
+      </p>
+    </div>
+
+    <div class="service-card">
+      <h3>💸 Affordable</h3>
+      <p>
+        Quality water doesn’t have to be expensive. We provide budget-friendly
+        pricing for everyone.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- SERVICES -->
+<section class="services">
+
+  <h2>Our Services</h2>
+
+  <div class="services-grid">
+
+    <!-- REFILL -->
+    <div class="service-card" onclick="location='app.html?view=services'">
+      <img src="refill.jpeg">
+      <h3>Water Refill</h3>
+      <p>
+        Get fresh and purified water refilled quickly and efficiently.
+        Perfect for daily household consumption.
+      </p>
+    </div>
+
+    <!-- DELIVERY -->
+    <div class="service-card" onclick="location='app.html?view=services'">
+      <img src="Deliver.jpeg">
+      <h3>Delivery Service</h3>
+      <p>
+        Too busy? No problem. We bring clean water straight to your doorstep
+        with fast and reliable delivery.
+      </p>
+    </div>
+
+    <!-- CONTAINER -->
+    <div class="service-card" onclick="location='app.html?view=services'">
+      <img src="Bottle.jpeg">
+      <h3>Water Containers</h3>
+      <p>
+        Durable and hygienic containers designed to keep your water safe,
+        clean, and long-lasting.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- CALL TO ACTION -->
+<section class="hero" style="height:auto; padding:40px 20px;">
+
+  <div class="hero-box">
+
+    <h2>Ready to Order?</h2>
+
+    <p>
+      Join our growing community of satisfied customers. 
+      Register now and enjoy fast, easy, and reliable water services.
+    </p>
+
+    <button class="primary" onclick="location='auth.html'">
+      Get Started
+    </button>
+
+  </div>
+
+</section>
+
+<!-- SCRIPT -->
+<script>
+function toggleMenu(){
+  document.getElementById("navLinks").classList.toggle("active");
+}
+
+function adminAccess(){
+    let pass = prompt("Enter admin password:");
+    if(pass === "1234"){
+        localStorage.setItem("session","admin");
+        location = "admin.html";
+    } else {
+        alert("Access denied");
+    }
+}
+</script>
+
+</body>
+</html>

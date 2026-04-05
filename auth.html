@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - CJ's Water</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-container">
+
+    <div class="logo" ondblclick="adminAccess()">
+      <img src="logo.jpeg">
+    </div>
+
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="app.html?view=services">Services</a>
+      <a href="auth.html">Login</a>
+    </div>
+
+  </div>
+</nav>
+
+<!-- FORM -->
+<div class="page">
+  <div class="card">
+
+    <h2>Welcome Back 💧</h2>
+
+    <p>Login or create an account to start ordering.</p>
+
+    <input id="username" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
+
+    <button class="primary" onclick="login()">Login</button>
+
+    <button class="secondary" onclick="register()">Register</button>
+
+  </div>
+</div>
+
+<!-- SCRIPT -->
+<script>
+
+function toggleMenu(){
+  document.getElementById("navLinks").classList.toggle("active");
+}
+
+function adminAccess(){
+    let pass = prompt("Enter admin password:");
+    if(pass === "1234"){
+        localStorage.setItem("session","admin");
+        location = "admin.html";
+    } else {
+        alert("Access denied");
+    }
+}
+
+function login(){
+  let user = document.getElementById("username").value;
+  let pass = document.getElementById("password").value;
+
+  // ADMIN LOGIN
+  if(user === "admin" && pass === "1234"){
+    localStorage.setItem("session","admin");
+    location = "admin.html";
+    return;
+  }
+
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+
+  let found = users.find(u => u.username === user && u.password === pass);
+
+  if(found){
+    localStorage.setItem("session", user);
+    alert("Login successful!");
+    location = "index.html";
+  } else {
+    alert("Invalid account");
+  }
+}
+
+function register(){
+  let user = document.getElementById("username").value;
+  let pass = document.getElementById("password").value;
+
+  if(user === "" || pass === ""){
+    alert("Please fill all fields");
+    return;
+  }
+
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+
+  users.push({username: user, password: pass});
+  localStorage.setItem("users", JSON.stringify(users));
+
+  alert("Registered successfully!");
+}
+
+</script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="auth-container">
+
+  <div class="auth-box">
+
+    <div class="auth-tabs">
+      <button onclick="showLogin()" id="loginTab" class="active">Login</button>
+      <button onclick="showRegister()" id="registerTab">Register</button>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="loginForm">
+      <input id="loginUser" placeholder="Username">
+      <input id="loginPass" type="password" placeholder="Password">
+      <button class="primary" onclick="login()">Login</button>
+    </div>
+
+    <!-- REGISTER -->
+    <div id="registerForm" style="display:none;">
+      <input id="regUser" placeholder="Username">
+      <input id="regPass" type="password" placeholder="Password">
+      <button class="primary" onclick="register()">Register</button>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

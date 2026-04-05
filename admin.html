@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- PRINT STYLE -->
+  <style>
+    @media print {
+      body {
+        background: white;
+        color: black;
+      }
+
+      .navbar, button, .no-print {
+        display: none;
+      }
+
+      .card {
+        box-shadow: none;
+        border: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 🔐 PROTECT ADMIN PAGE -->
+<script>
+if(localStorage.getItem("session") !== "admin"){
+    alert("Unauthorized access");
+    window.location.href = "index.html";
+}
+</script>
+
+<!-- NAVBAR -->
+<nav class="navbar no-print">
+  <div class="nav-container">
+    <div class="logo">💧 Admin Dashboard</div>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="card" id="content">
+
+    <h2>📊 Orders Dashboard</h2>
+
+    <!-- PRINT BUTTON -->
+    <button onclick="window.print()">🖨️ Print / Save as PDF</button>
+
+    <table border="1" width="100%" cellpadding="10" id="ordersTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Service</th>
+          <th>Address</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th class="no-print">Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+  </div>
+</div>
+
+<script>
+// LOAD ORDERS
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+function renderOrders(){
+  let table = document.querySelector("#ordersTable tbody");
+  table.innerHTML = "";
+
+  orders.forEach((order, index) => {
+    table.innerHTML += `
+      <tr>
+        <td>${order.name}</td>
+        <td>${order.service}</td>
+        <td>${order.address}</td>
+        <td>${order.date}</td>
+        <td>${order.status}</td>
+        <td class="no-print">
+          <button onclick="updateStatus(${index}, 'Pending')">Pending</button>
+          <button onclick="updateStatus(${index}, 'Completed')">Completed</button>
+          <button onclick="updateStatus(${index}, 'Cancelled')">Cancel</button>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+function updateStatus(index, status){
+  orders[index].status = status;
+  localStorage.setItem("orders", JSON.stringify(orders));
+  renderOrders();
+}
+
+renderOrders();
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body onload="loadOrders()">
+
+<div class="page">
+<div class="card">
+
+<h2>Admin Dashboard</h2>
+
+<button onclick="window.print()" class="secondary">Print / PDF</button>
+
+<table border="1" width="100%" id="ordersTable">
+</table>
+
+</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+</head>
+<body onload="loadOrders()">
+
+<h2>All Orders</h2>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Service</th>
+      <th>Address</th>
+      <th>Status</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody id="ordersTable"></tbody>
+</table>
+
+<script>
+function loadOrders(){
+  fetch("get_orders.php")
+  .then(res => res.json())
+  .then(data => {
+    let table = document.getElementById("ordersTable");
+    table.innerHTML = "";
+
+    data.forEach(o => {
+      table.innerHTML += `
+        <tr>
+          <td>${o.name}</td>
+          <td>${o.service}</td>
+          <td>${o.address}</td>
+          <td>${o.status}</td>
+          <td>${o.created_at}</td>
+        </tr>
+      `;
+    });
+  });
+}
+</script>
+
+</body>
+</html>
